@@ -33,3 +33,5 @@ array2.forEach((element) => {
 // undefined
 // CircuitRCAY is a meme
 // undefined
+
+console.log(array2.getLength());
