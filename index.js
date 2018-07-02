@@ -5,32 +5,37 @@ class FsArray {
   /**
    * Create a new FileSystem Array
    * @param {String} name The name of the array
-   * @param {(Number|*[])} array The length, or a set of existing iterable items.
+   * @param {(Number|*[]|Boolean)} array The length, an existing array or whether or not to use an existing filesystem
    */
   constructor(name, array) {
     this.name = name;
 
-    // Make a temp folder
-    try {
-      fs.mkdirSync(path.join('/', 'tmp', name));
-    } catch (e) {
-      // ree
-    }
+    if (array === true) {
+      // Do not do anything, use existing workspace
+    } else {
+      // Create a new FsArray workspace
+      // Make a temp folder
+      try {
+        fs.mkdirSync(path.join('/', 'tmp', name));
+      } catch (e) {
+        // ree
+      }
 
-    this.setLength(0);
+      this.setLength(0);
 
-    // Check iterability
-    // https://stackoverflow.com/questions/18884249/checking-whether-something-is-iterable
-    if (array !== null && array !== undefined && typeof array[Symbol.iterator] === 'function') {
-      const items = [...array];
-      // If it is iterable, iterate through each element and push the element into the stack
-      items.forEach((element) => {
-        push(element);
-      })
-    } else if (typeof array === 'number') {
-      // If it's a number, create files from 0 to the number.
-      for (let i = 0; i < array; i += 1) {
-        this.push(undefined);
+      // Check iterability
+      // https://stackoverflow.com/questions/18884249/checking-whether-something-is-iterable
+      if (array !== null && array !== undefined && typeof array[Symbol.iterator] === 'function') {
+        const items = [...array];
+        // If it is iterable, iterate through each element and push the element into the stack
+        items.forEach((element) => {
+          push(element);
+        })
+      } else if (typeof array === 'number') {
+        // If it's a number, create files from 0 to the number.
+        for (let i = 0; i < array; i += 1) {
+          this.push(undefined);
+        }
       }
     }
   }
