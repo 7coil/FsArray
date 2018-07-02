@@ -10,7 +10,7 @@ See `test.js`
     - Create a new FileSystem array of length 0 and named `test`
   - `new FsArray('test', 5)`
     - Create a new FileSystem array of length 5 and named `test`
-  - `new FsArray('test', ['a', 'b', ['c']])
+  - `new FsArray('test', ['a', 'b', ['c']])`
     - Create a new FileSystem array with existing elements and named `test`
 - `push(element)`
   - Push an element into the array
