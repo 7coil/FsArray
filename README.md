@@ -23,3 +23,13 @@ See `test.js`
 - `forEach((element, index) => {})`
   - Iterate over each element
   - Probably more efficient than `toArray().forEach()`
+- `getLength()`
+  - Get the length of the array
+
+**Secrets!**
+- `setLength()`
+  - Set the length of the array
+- `writeFile()`
+  - Write to any arbitary file without checks
+- `name`
+  - Get the name
