@@ -4,39 +4,24 @@ const path = require('path');
 class FsArray {
   /**
    * Create a new FileSystem Array
-   * @param {String} name The name of the array
-   * @param {(Number|*[]|Boolean)} array The length, an existing array or whether or not to use an existing filesystem
+   * @param {String} path The path to the location in which arrays are stored
    */
-  constructor(name, array) {
-    this.name = name;
+  constructor(path) {
+    this.path = path;
 
-    if (array === true) {
-      // Do not do anything, use existing workspace
-    } else {
-      // Create a new FsArray workspace
-      // Make a temp folder
-      try {
-        fs.mkdirSync(path.join('/', 'tmp', name));
-      } catch (e) {
-        // ree
+    // Create a new FsArray workspace
+    // Make a temp folder
+    try {
+      const info = fs.lstatSync(path);
+
+      // If the path is a file, it cannot use the folder.
+      if (info.isFile()) {
+        throw new Error('Cannot create FsArray as the path is a file, and not a folder.');
       }
-
+    } catch (e) {
+      // If the folder doesn't exist, create the folder
+      fs.mkdirSync(path);
       this.setLength(0);
-
-      // Check iterability
-      // https://stackoverflow.com/questions/18884249/checking-whether-something-is-iterable
-      if (array !== null && array !== undefined && typeof array[Symbol.iterator] === 'function') {
-        const items = [...array];
-        // If it is iterable, iterate through each element and push the element into the stack
-        items.forEach((element) => {
-          push(element);
-        })
-      } else if (typeof array === 'number') {
-        // If it's a number, create files from 0 to the number.
-        for (let i = 0; i < array; i += 1) {
-          this.push(undefined);
-        }
-      }
     }
   }
 
@@ -46,8 +31,8 @@ class FsArray {
    */
   push(element) {
     const length = this.getLength();
-    this.setElement(length, element);
     this.setLength(length + 1);
+    this.setElement(length, element);
   }
   
   /**
@@ -67,7 +52,7 @@ class FsArray {
    * @param {number} index A specific index
    */
   getElement(index) {
-    const contents = fs.readFileSync(path.join('/', 'tmp', this.name, "" + index), 'UTF-8');
+    const contents = fs.readFileSync(path.join(this.path, `${index}.json`), 'UTF-8');
 
     // JSON.stringify can create undefined, but JSON.parse can't parse it
     if (contents.startsWith('undefined')) {
@@ -98,7 +83,7 @@ class FsArray {
    * @param {*} contents The contents of the file
    */
   writeFile(index, contents) {
-    fs.writeFileSync(path.join('/', 'tmp', this.name, "" + index), JSON.stringify(contents, null, 2) + "\n");
+    fs.writeFileSync(path.join(this.path, `${index}.json`), JSON.stringify(contents, null, 2) + "\n");
   }
 
   /**
@@ -124,6 +109,16 @@ class FsArray {
    */
   setLength(length) {
     this.writeFile('length', length);
+  }
+  
+  clearArray() {
+    if (this.getLength() > 0) {
+      const files = fs.readdirSync(this.path);
+      files.forEach((file) => {
+        fs.unlinkSync(path.join(this.path, file));
+      });
+      this.setLength(0);
+    }
   }
 }
 
