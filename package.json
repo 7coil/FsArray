@@ -1,0 +1,22 @@
+{
+  "name": "fsarray",
+  "version": "1.1.0",
+  "description": "Why make arrays which take up valuable RAM when you can use FsArray to use the filesystem instead?",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moustacheminer/FsArray.git"
+  },
+  "author": "7coil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moustacheminer/FsArray/issues"
+  },
+  "homepage": "https://github.com/moustacheminer/FsArray#readme"
+}
