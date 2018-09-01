@@ -6,12 +6,10 @@ See `test.js`
 
 ## Documentation
 - Constructor
-  - `new FsArray('test')`
-    - Create a new FileSystem array of length 0 and named `test`
-  - `new FsArray('test', 5)`
-    - Create a new FileSystem array of length 5 and named `test`
-  - `new FsArray('test', ['a', 'b', ['c']])`
-    - Create a new FileSystem array with existing elements and named `test`
+  - `new FsArray('/tmp/hi')`
+    - Create, or reuse the FsArray at the `/tmp/hi` folder
+  - `new FsArray(path.join(__dirname, 'data'))`
+    - Create an FsArray in the `data` directory relative to the script
 - `push(element)`
   - Push an element into the array
 - `toArray()`
@@ -20,16 +18,27 @@ See `test.js`
   - Grab a single element
 - `setElement(index, element)`
   - Set a single element
+- `deleteElement(index)`
+  - Delete a single element
+  - Very resource intensive, as it renames every file after the index
 - `forEach((element, index) => {})`
   - Iterate over each element
   - Probably more efficient than `toArray().forEach()`
 - `getLength()`
   - Get the length of the array
+- `clearArray()`
+  - Delete all items in the array
+  - Does not do anything if the length of the array is `0`
 
 **Secrets!**
-- `setLength()`
+- `setLength(length)`
   - Set the length of the array
-- `writeFile()`
+- `writeFile(index, contents)`
   - Write to any arbitary file without checks
-- `name`
-  - Get the name
+- `path`
+  - Get the path to the folder containing the FsArray
+
+## Warnings
+
+1. Do not use in a wet damp environment
+2. Editing the `length.json` file will affect the stability of the FsArray

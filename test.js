@@ -9,6 +9,8 @@ array1.push('world');
 array1.push({
   'test': 'nope'
 })
+array1.deleteElement(1);
+array1.push('CircuitRCAY')
 
 const array2 = new FsArray(path.join(__dirname, 'test'));
 console.log(array2.getLength());

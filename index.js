@@ -77,6 +77,32 @@ class FsArray {
     }
   }
 
+  deleteElement(index) {
+    if (index >= this.getLength()) {
+      return undefined;
+    } else if (index < 0) {
+      return undefined;
+    } else {
+      this.deleteFile(index);
+      fs.readdirSync(this.path)
+        .map(file => file.replace('.json', ''))
+        .map(number => parseInt(number, 10))
+        .filter(number => typeof number === 'number')
+        .filter(number => number > index)
+        .forEach(number => fs.renameSync(path.join(this.path, `${number}.json`), path.join(this.path, `${number - 1}.json`)));
+      const length = this.getLength();
+      this.setLength(length - 1);
+    }
+  }
+
+  /**
+   * Delete a file
+   * @param {String} index The file name to delete
+   */
+  deleteFile(index) {
+    fs.unlinkSync(path.join(this.path, `${index}.json`));
+  }
+
   /**
    * Write to a file
    * @param {String} index The file name to write to
