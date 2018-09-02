@@ -28,11 +28,13 @@ class FsArray {
   /**
    * Push any JSON compatible element into the array
    * @param {*} element A single element to push
+   * @returns {Number} The index of the inserted element
    */
   push(element) {
     const length = this.getLength();
     this.setLength(length + 1);
     this.setElement(length, element);
+    return length;
   }
   
   /**
